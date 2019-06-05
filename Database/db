@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS iot_pcf;
+CREATE DATABASE iot_pcf;
