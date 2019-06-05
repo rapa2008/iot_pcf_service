@@ -4,6 +4,7 @@ import com.iot.pcf.model.Device;
 import com.iot.pcf.model.DeviceActivity;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,8 @@ import java.net.URL;
 import java.util.Date;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 @RestController
 public class Controller {
 
@@ -28,6 +31,9 @@ public class Controller {
 
     @Autowired
     DeviceActivityInterface deviceActivityRepository;
+
+    @Value("${sleep_timer}")
+    Integer sleepTimer;
 
     @GetMapping("/device")
     public List<Device> getAllDevices(){
@@ -53,6 +59,11 @@ public class Controller {
         Date date = new Date();
         deviceActivity.setCreatedDate(date);
         deviceActivityRepository.save(deviceActivity);
+        try {
+            sleep(sleepTimer);
+        } catch (InterruptedException e){
+            System.out.println("Sleep Interrupted: " + e.getMessage());
+        }
         executeAction(deviceActivity);
         return deviceActivity;
     }

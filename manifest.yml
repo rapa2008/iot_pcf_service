@@ -2,5 +2,9 @@
 applications:
   - name: iot_pcf
     path: target/pcf-0.0.1-SNAPSHOT.jar
+    buildpacks:
+      - java_buildpack_offline
     services:
       - mysql-iot-pcf
+    env:
+      SLEEP_TIMER: 5000
